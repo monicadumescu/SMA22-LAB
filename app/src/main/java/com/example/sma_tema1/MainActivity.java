@@ -12,8 +12,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         TextView eName = (TextView) findViewById(R.id.eName);
         FloatingActionButton bShare = (FloatingActionButton) findViewById(R.id.bShare);
         FloatingActionButton bSearch = (FloatingActionButton) findViewById(R.id.bSearch);
+
 
         alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -92,6 +91,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 });
                 onBackPressed();
             }
+
+
 //            public void clicked(View view) {
 //                switch (view.getId()) {
 //                    case R.id.bClick:
