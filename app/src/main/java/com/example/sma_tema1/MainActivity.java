@@ -19,6 +19,17 @@ public class MainActivity extends AppCompatActivity {
 
     AlertDialog.Builder alertDialogBuilder;
 
+    public void clicked(View view) {
+                switch (view.getId()) {
+                    case R.id.bClick:
+                        TextInputEditText tName = (TextInputEditText) findViewById(R.id.tName);
+                        TextView eName = (TextView) findViewById(R.id.eName);
+                        String greetings = "Hello, " + tName.getText().toString();
+                        eName.setText(greetings);
+                        break;
+                }
+            }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,15 +63,7 @@ public class MainActivity extends AppCompatActivity {
                 });
                 onBackPressed();
             }
-//            public void clicked(View view) {
-//                switch (view.getId()) {
-//                    case R.id.bClick:
-//                        String name = tName.getText().toString();
-//                        String greetings = "Hello, " + name;
-//                        eName.setText(greetings);
-//                        break;
-//                }
-//            }
+
         });
 
         alertDialogBuilder.setCancelable(false);
