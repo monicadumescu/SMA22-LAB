@@ -45,8 +45,8 @@ public class MainIntentActivity extends AppCompatActivity {
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent3=new Intent();
-                intent3.setAction(Intent.CATEGORY_LAUNCHER);
+                Intent intent3=new Intent(MainIntentActivity.this, MainIntentActivity.class);
+                intent3.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent3.setData(Uri.parse("http://www.google.com"));
                 startActivity(intent3);
             }
@@ -55,8 +55,8 @@ public class MainIntentActivity extends AppCompatActivity {
         button4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent4=new Intent();
-                intent4.setAction(Intent.CATEGORY_LAUNCHER);
+                Intent intent4=new Intent(MainIntentActivity.this, MainIntentActivity.class);
+                intent4.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 intent4.setData(Uri.parse("http://www.google.com"));
                 startActivity(intent4);
             }
