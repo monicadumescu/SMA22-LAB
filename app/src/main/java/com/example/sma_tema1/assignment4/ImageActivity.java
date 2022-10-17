@@ -18,14 +18,14 @@ public class ImageActivity extends AppCompatActivity {
     }
     MyApplication myApplication = (MyApplication) getApplicationContext();
 
-    if(myApplication.getBitmap() == null)
-    {
-        Toast.makeText(this, "Error at transmitting url!", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-    else
-    {
-        ImageView image = (ImageView) findViewById(R.id.imageView);
-        image.setImageBitmap(myApplication.getBitmap());
-    }
+//    if(myApplication.getBitmap() == null)
+//    {
+//        Toast.makeText(this, "Error at transmitting url!", Toast.LENGTH_SHORT).show();
+//        finish();
+//    }
+//    else
+//    {
+//        ImageView image = (ImageView) findViewById(R.id.imageView);
+//        image.setImageBitmap(myApplication.getBitmap());
+//    }
 }

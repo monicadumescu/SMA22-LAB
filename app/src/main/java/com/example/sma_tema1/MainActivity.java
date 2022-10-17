@@ -21,6 +21,7 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    public static final String CHANNEL_ID = "CHANNELid";
     AlertDialog.Builder alertDialogBuilder;
 
     @Override
