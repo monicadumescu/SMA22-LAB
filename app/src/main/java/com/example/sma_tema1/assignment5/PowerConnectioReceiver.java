@@ -15,27 +15,10 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.sma_tema1.MainActivity;
 
 public class PowerConnectioReceiver extends BroadcastReceiver {
-    private Context context;
-    private String chargingStatus;
-
-    Intent newIntent = new Intent(context, MainActivity.class);
-    newIntent.putExtras("status", chargingStatus);
-    PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, newIntent, 0);
-
-    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, MainActivity.CHANNEL_ID)
-            .setSmallIcon(android.R.mipmap.sym_def_app_icon)
-            .setContentTitle("Charging state changed!")
-            .setContentText(chargingStatus)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setContentIntent(pendingIntent)
-            .setAutoCancel(true);
-
-    NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-    notificationManagerCompat.notify(MainActivity.notificationId, mBuilder.build());
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Bundle extras = newIntent.getExtras();
+        Bundle extras = intent.getExtras();
         if (extras != null) {
             String state = extras.getString(BatteryManager.EXTRA_STATUS);
             Log.d("MY_DEBUG_TAG", state);

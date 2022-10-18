@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SMA_Tema1</string>
+    <string name="Channel1">channel_name</string>
+    <string name="Description">channel_description</string>
 </resources>
