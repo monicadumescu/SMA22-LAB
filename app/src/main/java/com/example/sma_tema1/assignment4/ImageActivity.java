@@ -2,8 +2,6 @@ package com.example.sma_tema1.assignment4;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -15,17 +13,17 @@ public class ImageActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image);
-    }
-    MyApplication myApplication = (MyApplication) getApplicationContext();
 
-    if(myApplication.getBitmap() == null)
-    {
-        Toast.makeText(this, "Error at transmitting url!", Toast.LENGTH_SHORT).show();
-        finish();
+        MyApplication myApplication = new MyApplication();
+
+        if(myApplication.getBitmap() == null)
+        {
+            Toast.makeText(this, "Error transmitting URL", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            ImageView imageView = (ImageView) findViewById(R.id.imageView);
+            imageView.setImageBitmap(myApplication.getBitmap());
+        }
     }
-    else
-    {
-        ImageView image = (ImageView) findViewById(R.id.imageView);
-        image.setImageBitmap(myApplication.getBitmap());
-    }
+
 }

@@ -1,7 +1,6 @@
 package com.example.sma_tema1.assignment4;
 
 import android.app.Application;
-import android.content.Context;
 import android.graphics.Bitmap;
 
 public class MyApplication extends Application {
@@ -11,28 +10,23 @@ public class MyApplication extends Application {
 
     public MyApplication getInstance()
     {
-        return singleton;
+        return  singleton;
     }
 
     @Override
-    public void onCreate()
+    public  void onCreate()
     {
         super.onCreate();
         singleton = this;
     }
 
-    public Bitmap getBitmap()
+    public  Bitmap getBitmap()
     {
-        return bitmap;
+        return  bitmap;
     }
 
-    public void  setBitmap(Bitmap bmp)
+    public  void setBitmap(Bitmap bitmap)
     {
         this.bitmap = bitmap;
     }
-
-    public Context getApplicationContext() {
-        return  this.getApplicationContext();
-    }
-
 }

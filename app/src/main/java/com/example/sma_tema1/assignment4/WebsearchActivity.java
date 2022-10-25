@@ -46,7 +46,7 @@ public class WebsearchActivity extends AppCompatActivity {
                 intent.putExtra(EXTRA_URL, url);
                 startService(intent);
             }
-            else
+            else if (myWebView.getId() == R.id.button6)
             {
                 Intent intent = new Intent(this, ForegroundImageService.class);
                 intent.setAction(ForegroundImageService.STARTFOREGROUND_ACTION);
