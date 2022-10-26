@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1045566880567",
+    "project_id": "smart-wallet-abe57",
+    "storage_bucket": "smart-wallet-abe57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1045566880567:android:6319e1d6c8e2462aa138b2",
+        "android_client_info": {
+          "package_name": "com.example.sma_tema1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1045566880567-3s9658g361ra92ftustqro3r1f3tkbr2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBpEoB2METEGzi6RLT5FFtRfpBnexkI1P0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1045566880567-3s9658g361ra92ftustqro3r1f3tkbr2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
