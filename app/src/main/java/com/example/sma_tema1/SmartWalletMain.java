@@ -2,6 +2,7 @@ package com.example.sma_tema1;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SmartWalletMain extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
@@ -24,6 +28,8 @@ public class SmartWalletMain extends AppCompatActivity {
     private ValueEventListener databaseListener;
     private TextView entries;
     private EditText income, expenses, searchRes;
+    private String saved_month;
+
 
     public void clicked(View view)
     {
@@ -33,16 +39,38 @@ public class SmartWalletMain extends AppCompatActivity {
                 if(!searchRes.getText().toString().isEmpty())
                 {
                     currentMonth = searchRes.getText().toString().toLowerCase();
-
+                    saveData();
                     entries.setText("Searching...");
                     createNewDBListener();
                 }
                 else
                 {
-                    Toast.makeText(this, "Search fiels may not be empty!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Search fields may not be empty!", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.update_b:
+                if(income.getText().toString().isEmpty() || expenses.getText().toString().isEmpty() || searchRes.getText().toString().isEmpty())
+                {
+                    Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+                }
+                try {
+                    float inc = Float.valueOf(income.getText().toString());
+                }
+                catch (NumberFormatException e)
+                {
+                    Toast.makeText(this, "Income should be a number", Toast.LENGTH_SHORT).show();
+                }
+                try {
+                    float inc = Float.valueOf(expenses.getText().toString());
+                }
+                catch (NumberFormatException e)
+                {
+                    Toast.makeText(this, "Expenses should be a number", Toast.LENGTH_SHORT).show();
+                }
+
+                currentMonth = searchRes.getText().toString().toLowerCase();
+                updateDB();
+                Toast.makeText(this, "Data updated successfully", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
@@ -60,6 +88,8 @@ public class SmartWalletMain extends AppCompatActivity {
         FirebaseApp.initializeApp(getApplicationContext());
         databaseReference = FirebaseDatabase.getInstance().getReference();
 
+        loadData();
+        updateData();
     }
 
     private  void createNewDBListener() {
@@ -85,5 +115,33 @@ public class SmartWalletMain extends AppCompatActivity {
         };
 
         databaseReference.child("calendar").child(currentMonth).addValueEventListener((ValueEventListener) databaseListener);
+    }
+
+    private void updateDB()
+    {
+        if (databaseReference != null)
+        {
+            MonthlyExpenses monthlyExpenses = new MonthlyExpenses(searchRes.getText().toString(), Float.valueOf(income.getText().toString()), Float.valueOf(expenses.getText().toString()));
+           databaseReference.child("calendar").child(currentMonth).setValue(monthlyExpenses);
+        }
+    }
+
+    private void saveData()
+    {
+        SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString("month", currentMonth);
+        editor.apply();
+    }
+
+    private void loadData()
+    {
+        SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
+        saved_month = pref.getString("month", "");
+    }
+
+    private void updateData()
+    {
+        searchRes.setText(saved_month);
     }
 }
