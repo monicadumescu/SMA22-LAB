@@ -43,4 +43,11 @@ public class MonthlyExpenses {
 
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "MonthlyExpenses{" +
+                "month='" + month + '\'' +
+                '}';
+    }
 }
