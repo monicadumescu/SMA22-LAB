@@ -38,6 +38,7 @@ public class SmartWalletMain extends AppCompatActivity implements AdapterView.On
     private String saved_month;
 
 
+
 //    public void clicked(View view)
 //    {
 //        switch (view.getId())
@@ -93,6 +94,7 @@ public class SmartWalletMain extends AppCompatActivity implements AdapterView.On
         spinner = (Spinner) findViewById(R.id.spinner);
 
 
+
         FirebaseApp.initializeApp(getApplicationContext());
         databaseReference = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> list = new ArrayList<>();
@@ -120,7 +122,7 @@ public class SmartWalletMain extends AppCompatActivity implements AdapterView.On
 
         spinner.setOnItemSelectedListener(this);
 
-//        loadData();
+        loadData();
 //        updateData();
     }
 
@@ -163,16 +165,16 @@ public class SmartWalletMain extends AppCompatActivity implements AdapterView.On
 
     private void saveData()
     {
-        SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("month", currentMonth);
+        SharedPreferences.Editor editor = getPreferences(0).edit();
+        int selectedPos = spinner.getSelectedItemPosition();
+        editor.putInt("spinnerSelection", selectedPos);
         editor.apply();
     }
 
     private void loadData()
     {
-        SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
-        saved_month = pref.getString("month", "");
+        SharedPreferences prefs = getPreferences(0);
+        spinner.setSelection(prefs.getInt("spinnerSelection",0));
     }
 
 //    private void updateData()
@@ -183,7 +185,7 @@ public class SmartWalletMain extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         currentMonth = adapterView.getItemAtPosition(i).toString();
-        //saveData();
+        saveData();
         entries.setText("Searching...");
         createNewDBListener();
     }
