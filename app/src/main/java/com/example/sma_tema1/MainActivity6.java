@@ -1,0 +1,89 @@
+package com.example.sma_tema1;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.sma_tema1.model.Payment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import com.example.sma_tema1.ui.PaymentAdapter;
+import com.google.firebase.database.FirebaseDatabase;
+
+public class MainActivity6 extends AppCompatActivity {
+
+    private DatabaseReference databaseReference;
+    private int currentMonth;
+    private List<Payment> payments = new ArrayList<>();
+    private TextView tStatus;
+    private Button bNext, nPrevious;
+    private FloatingActionButton fabAdd;
+    private ListView listView;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main6);
+
+        tStatus = (TextView) findViewById(R.id.tStatus);
+        nPrevious = (Button) findViewById(R.id.bPrevious);
+        bNext = (Button) findViewById(R.id.bNext);
+        fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
+        listView = (ListView) findViewById(R.id.listPayments);
+        final PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
+        listView.setAdapter(adaptor);
+
+        databaseReference = FirebaseDatabase.getInstance().getReference();
+
+        databaseReference.child("wallet").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                for(DataSnapshot dataSnapshot : snapshot.getChildren())
+                {
+                    Payment payment = dataSnapshot.getValue(Payment.class);
+                    payments.add(payment);
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static String getCurrentTime()
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd:HH:mm:ss");
+        Date date = new Date();
+        return simpleDateFormat.format(date);
+    }
+}
