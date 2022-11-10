@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 import com.example.sma_tema1.ui.PaymentAdapter;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity6 extends AppCompatActivity {
 
@@ -43,33 +46,22 @@ public class MainActivity6 extends AppCompatActivity {
         bNext = (Button) findViewById(R.id.bNext);
         fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         listView = (ListView) findViewById(R.id.listPayments);
-        final PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
+
+        PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
         listView.setAdapter(adaptor);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference();
 
-        databaseReference.child("wallet").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+        databaseReference = FirebaseDatabase.getInstance().getReference("wallet");
 
-            }
+        databaseReference.addValueEventListener(new ValueEventListener() {
 
             @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Payment payment = dataSnapshot.getValue(Payment.class);
                     payments.add(payment);
                 }
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -78,12 +70,13 @@ public class MainActivity6 extends AppCompatActivity {
 
             }
         });
+
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity6.this, AddPaymentActivity.class));
+            }
+        });
     }
 
-    public static String getCurrentTime()
-    {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd:HH:mm:ss");
-        Date date = new Date();
-        return simpleDateFormat.format(date);
-    }
 }
