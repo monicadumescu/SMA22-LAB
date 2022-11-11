@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,24 @@ public class MainActivity6 extends AppCompatActivity {
     private Button bNext, nPrevious;
     private FloatingActionButton fabAdd;
     private ListView listView;
+    public enum Month{
+        January, February, March, April, May, June, July, August, September, October, November, December;
+        public static int intToMonthToInt(Month month)
+        {
+            return month.ordinal();
+        }
+        public static Month IntToMonthName(int index)
+        {
+            return  Month.values()[index];
+        }
+        public static int monthFromTimestamp(String timestamp)
+        {
+            int month = Integer.parseInt(timestamp.substring(5,7));
+            return month - 1;
+        }
+    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +65,40 @@ public class MainActivity6 extends AppCompatActivity {
         bNext = (Button) findViewById(R.id.bNext);
         fabAdd = (FloatingActionButton) findViewById(R.id.fabAdd);
         listView = (ListView) findViewById(R.id.listPayments);
+        Button previous = (Button) findViewById(R.id.bPrevious);
+        Button next = (Button) findViewById(R.id.bNext);
+        TextView text = (TextView) findViewById(R.id.tStatus);
 
         PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
         listView.setAdapter(adaptor);
+
+        SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
+        currentMonth = pref.getInt("month", -1);
+
+        if(currentMonth == -1)
+        {
+            currentMonth = Month.monthFromTimestamp(getCurrentTime());
+        }
+
+        text.setText(String.valueOf(currentMonth));
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentMonth = currentMonth - 1;
+                pref.edit().putInt("month", currentMonth).apply();
+                recreate();
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                currentMonth = currentMonth + 1;
+                pref.edit().putInt("month", currentMonth).apply();
+                recreate();
+            }
+        });
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("wallet");
@@ -59,8 +109,16 @@ public class MainActivity6 extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for(DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
-                    Payment payment = dataSnapshot.getValue(Payment.class);
-                    payments.add(payment);
+                    try {
+
+                        Payment payment = dataSnapshot.getValue(Payment.class);
+                        if (currentMonth == Month.monthFromTimestamp(payment.timestamp)) {
+                            payments.add(payment);
+                        }
+                    } catch (Exception e)
+                    {
+
+                    }
                 }
 
             }
@@ -78,5 +136,12 @@ public class MainActivity6 extends AppCompatActivity {
             }
         });
     }
+    public static String getCurrentTime()
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyy-MM-dd:HH:mm:ss");
+        Date date = new Date();
+        return simpleDateFormat.format(date);
+    }
+
 
 }

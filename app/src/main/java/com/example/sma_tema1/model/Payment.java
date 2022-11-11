@@ -1,5 +1,7 @@
 package com.example.sma_tema1.model;
 
+import java.util.Objects;
+
 public class Payment {
     public String timestamp;
     private double cost;
@@ -43,5 +45,18 @@ public class Payment {
 
     public String getType() {
         return type;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payment payment = (Payment) o;
+        return Double.compare(payment.cost, cost) == 0 && name.equals(payment.name) && type.equals(payment.type);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(cost, name, type);
     }
 }
