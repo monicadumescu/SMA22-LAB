@@ -72,6 +72,7 @@ public class MainActivity6 extends AppCompatActivity {
         PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
         listView.setAdapter(adaptor);
 
+
         SharedPreferences pref = getSharedPreferences("MyPref", 0); // 0 - for private mode
         currentMonth = pref.getInt("month", -1);
 
@@ -114,6 +115,7 @@ public class MainActivity6 extends AppCompatActivity {
                         Payment payment = dataSnapshot.getValue(Payment.class);
                         if (currentMonth == Month.monthFromTimestamp(payment.timestamp)) {
                             payments.add(payment);
+                            adaptor.notifyDataSetChanged();
                         }
                     } catch (Exception e)
                     {
@@ -128,6 +130,7 @@ public class MainActivity6 extends AppCompatActivity {
 
             }
         });
+
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
