@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.sma_tema1.model.Payment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -68,6 +69,19 @@ public class MainActivity6 extends AppCompatActivity {
         Button previous = (Button) findViewById(R.id.bPrevious);
         Button next = (Button) findViewById(R.id.bNext);
         TextView text = (TextView) findViewById(R.id.tStatus);
+
+        if(!AppClass.isNetworkAvailable(this))
+        {
+            if(AppClass.hasLocalStorage(this))
+            {
+                payments = AppClass.loadFromLocalBackup(this,currentMonth);
+                tStatus.setText("Found " + payments.size() + "payments for " + Month.IntToMonthName(currentMonth) + ".");
+            }
+            else {
+                Toast.makeText(this, "This app needs an internet connection!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
 
         PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
         listView.setAdapter(adaptor);

@@ -1,8 +1,9 @@
 package com.example.sma_tema1.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Payment {
+public class Payment implements Serializable {
     public String timestamp;
     private double cost;
     private String name;
@@ -58,5 +59,10 @@ public class Payment {
     @Override
     public int hashCode() {
         return Objects.hash(cost, name, type);
+    }
+
+    public Object copy() {
+        Payment p = new Payment(this.timestamp, this.cost, this.name, this.type);
+        return p;
     }
 }
