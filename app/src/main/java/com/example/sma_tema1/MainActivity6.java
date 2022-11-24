@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.sma_tema1.model.Payment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,8 +28,11 @@ import java.util.List;
 import com.example.sma_tema1.ui.PaymentAdapter;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.ktx.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity6 extends AppCompatActivity {
+
 
     private DatabaseReference databaseReference;
     private int currentMonth;
@@ -62,6 +66,7 @@ public class MainActivity6 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main6);
 
+
         tStatus = (TextView) findViewById(R.id.tStatus);
         nPrevious = (Button) findViewById(R.id.bPrevious);
         bNext = (Button) findViewById(R.id.bNext);
@@ -87,6 +92,7 @@ public class MainActivity6 extends AppCompatActivity {
             //AppClass.updateLocalBackup(this,payment,true);
         }
 
+        FirebaseAuth authAction=FirebaseAuth.getInstance();
         PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);
         listView.setAdapter(adaptor);
 
@@ -131,7 +137,7 @@ public class MainActivity6 extends AppCompatActivity {
                     try {
 
                         Payment payment = dataSnapshot.getValue(Payment.class);
-                        if (currentMonth == Month.monthFromTimestamp(payment.timestamp)) {
+                        if (currentMonth == Month.monthFromTimestamp(payment.timestamp) && payment.getEmail().equals(authAction.getCurrentUser().getEmail())) {
                             payments.add(payment);
                             adaptor.notifyDataSetChanged();
                         }

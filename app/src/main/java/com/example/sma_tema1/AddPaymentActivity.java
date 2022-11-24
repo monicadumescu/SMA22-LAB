@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.sma_tema1.model.Payment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AddPaymentActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
+
+    FirebaseAuth authAction=FirebaseAuth.getInstance();
+
     private String payment_type;
     private DatabaseReference databaseReference;
     private boolean ok =false;
@@ -60,7 +64,7 @@ public class AddPaymentActivity extends AppCompatActivity implements AdapterView
                 }
                 //Payment payment = new Payment(getCurrentTime(),Double.parseDouble(cost.getText().toString()),name.getText().toString(),payment_type);
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("wallet");
-                Payment payment = new Payment(getCurrentTime(),Double.parseDouble(cost.getText().toString()), name.getText().toString(), payment_type);
+                Payment payment = new Payment(getCurrentTime(),Double.parseDouble(cost.getText().toString()), name.getText().toString(), payment_type, authAction.getCurrentUser().getEmail());
                 databaseReference.push().setValue(payment).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -84,14 +88,14 @@ public class AddPaymentActivity extends AppCompatActivity implements AdapterView
                 }
                 //Payment payment = new Payment(getCurrentTime(),Double.parseDouble(cost.getText().toString()),name.getText().toString(),payment_type);
                 databaseReference = FirebaseDatabase.getInstance().getReference().child("wallet");
-                Payment payment1 = new Payment(getCurrentTime(),Double.parseDouble(cost.getText().toString()), name.getText().toString(), payment_type);
+                Payment payment1 = new Payment(getCurrentTime(),Double.parseDouble(cost.getText().toString()), name.getText().toString(), payment_type, authAction.getCurrentUser().getEmail());
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         for(DataSnapshot dataSnapshot : snapshot.getChildren())
                         {
                             Payment payment = dataSnapshot.getValue(Payment.class);
-                            if (payment.equals(payment1))
+                            if (payment.equals(payment1) && payment.getEmail().equals(authAction.getCurrentUser().getEmail()))
                             {
                                 ok = true;
                                 key = dataSnapshot.getKey();
