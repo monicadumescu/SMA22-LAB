@@ -40,7 +40,7 @@ public class AppClass extends Application {
             {
                 FileOutputStream fos = context.openFileOutput(fileName,Context.MODE_PRIVATE);
                 ObjectOutputStream os = new ObjectOutputStream(fos);
-                os.writeObject(payment.copy());
+                //os.writeObject(payment.copy());
                 os.close();
                 fos.close();
             }
