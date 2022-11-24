@@ -37,6 +37,7 @@ public class MainActivity6 extends AppCompatActivity {
     private Button bNext, nPrevious;
     private FloatingActionButton fabAdd;
     private ListView listView;
+    private Payment payment;
     public enum Month{
         January, February, March, April, May, June, July, August, September, October, November, December;
         public static int intToMonthToInt(Month month)
@@ -81,6 +82,9 @@ public class MainActivity6 extends AppCompatActivity {
                 Toast.makeText(this, "This app needs an internet connection!", Toast.LENGTH_SHORT).show();
                 return;
             }
+        }
+        else{
+            //AppClass.updateLocalBackup(this,payment,true);
         }
 
         PaymentAdapter adaptor = new PaymentAdapter(this,R.layout.item_payment, payments);

@@ -31,7 +31,7 @@ public class AppClass extends Application {
         return networkInfo != null;
     }
 
-    public void updateLocalBackup(Context context, Payment payment, boolean toAdd)
+    public static void updateLocalBackup(Context context, Payment payment, boolean toAdd)
     {
         String fileName = payment.timestamp;
 
