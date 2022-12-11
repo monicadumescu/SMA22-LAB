@@ -60,6 +60,16 @@ public class MainActivity6 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main6);
 
+//        if (databaseReference == null) {
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            database.setPersistenceEnabled(true);
+//            databaseReference = database.getReference("wallet");
+//            // ...
+//        }
+//
+//        DatabaseReference scoresRef = FirebaseDatabase.getInstance().getReference("wallet");
+//        databaseReference.keepSynced(true);
+
         tStatus = (TextView) findViewById(R.id.tStatus);
         nPrevious = (Button) findViewById(R.id.bPrevious);
         bNext = (Button) findViewById(R.id.bNext);
@@ -103,6 +113,7 @@ public class MainActivity6 extends AppCompatActivity {
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("wallet");
+        databaseReference.keepSynced(true);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
 
